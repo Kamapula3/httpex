@@ -51,7 +51,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and float(delta_new) > 0:
+            if event.key == pygame.K_PAGEUP and float(delta_new) > 0:
                 kk = -0.001
                 delta_new = spn(float(delta_new), kk)
                 params = {
@@ -76,7 +76,7 @@ while run:
                 screen.blit(pygame.image.load(map_file), (0, 0))
 # Переключаем экран и ждем закрытия окна.
                 pygame.display.flip()
-            if event.key == pygame.K_DOWN and float(delta_new) < 0.09:
+            if event.key == pygame.K_PAGEDOWN and float(delta_new) < 0.09:
                 kk = 0.001
                 if delta_new != -1:
                     delta_new = spn(float(delta_new), kk)
