@@ -8,7 +8,7 @@ import requests
 def spn(ap, lon, lat, delta):
     api_s = ap
     params = {
-        "ll": ",".join([lon, lat]),
+        "ll": ",".join([str(lon), str(lat)]),
         "spn": ",".join([str(delta), str(delta)]),
         "l": "map"
     }
@@ -16,8 +16,8 @@ def spn(ap, lon, lat, delta):
 
 
 api_server = "http://static-maps.yandex.ru/1.x/"
-lon = "37.530887"
-lat = "55.703118"
+lon = 37.530887
+lat = 55.703118
 delta = 0.002
 
 response = spn(api_server, lon, lat, delta)
@@ -48,28 +48,19 @@ while run:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_PAGEUP and delta > 0:
                 delta -= 0.001
-                response = spn(api_server, lon, lat, delta)
-                map_file = "map.png"
-                with open(map_file, "wb") as file:
-                    file.write(response.content)
-                pygame.init()
-                screen = pygame.display.set_mode((600, 450))
-                screen.blit(pygame.image.load(map_file), (0, 0))
-                # Переключаем экран и ждем закрытия окна.
-                pygame.display.flip()
             if event.key == pygame.K_PAGEDOWN and delta < 0.09:
                 delta += 0.001
-                response = spn(api_server, lon, lat, delta)
-                # Запишем полученное изображение в файл.
-                map_file = "map.png"
-                with open(map_file, "wb") as file:
-                        file.write(response.content)
-                pygame.init()
-                screen = pygame.display.set_mode((600, 450))
-                # Рисуем картинку, загружаемую из только что созданного файла.
-                screen.blit(pygame.image.load(map_file), (0, 0))
-                # Переключаем экран и ждем закрытия окна.
-                pygame.display.flip()
+            response = spn(api_server, lon, lat, delta)
+            # Запишем полученное изображение в файл.
+            map_file = "map.png"
+            with open(map_file, "wb") as file:
+                    file.write(response.content)
+        pygame.init()
+        screen = pygame.display.set_mode((600, 450))
+        # Рисуем картинку, загружаемую из только что созданного файла.
+        screen.blit(pygame.image.load(map_file), (0, 0))
+        # Переключаем экран и ждем закрытия окна.
+        pygame.display.flip()
 pygame.quit()
 
 # Удаляем за собой файл с изображением.
